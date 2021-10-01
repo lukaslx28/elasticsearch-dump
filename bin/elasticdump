@@ -142,6 +142,11 @@ if (argv.help === true) {
 } else if (argv.version === true) {
   console.log(packageData.version)
 } else {
+  if (Object.keys(argv).length > 1) {
+    console.error(`Invalid options: ${Object.keys(argv).filter(o => o != '_').map((o) => '--' + o).join(', ')}`)
+    process.exit(1)
+  }
+
   if (!options.overwrite && options.output !== '$' && !isUrl(options.output) && fs.existsSync(options.output)) {
     console.error(`File \`${options.output}\` already exists, quitting`)
     process.exit(1)
